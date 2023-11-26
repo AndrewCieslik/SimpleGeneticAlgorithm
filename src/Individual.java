@@ -3,9 +3,11 @@ import java.util.Random;
 
 public class Individual {
     final boolean[] chromosome;
+    private double mutationProb;
 
-    Individual(int chromosomeSize) {
+    Individual(int chromosomeSize, double mutationProb) {
         this.chromosome = new boolean[chromosomeSize];
+        this.mutationProb = mutationProb;
     }
 
     void generateChromosome() {
@@ -26,7 +28,7 @@ public class Individual {
     }
 
     Individual copy() {
-        Individual newInd = new Individual(chromosome.length);
+        Individual newInd = new Individual(chromosome.length, mutationProb);
         for (int i = 0; i < chromosome.length; i++) {
             newInd.chromosome[i] = chromosome[i];
         }

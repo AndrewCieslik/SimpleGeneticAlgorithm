@@ -7,23 +7,24 @@ public class Main {
         int b = -250;
         int c = 10000;
         int populationSize = 4;
+        int numOfGenerations = 1;
         int chromosomeSize = 8;
-        int numOfIterations = 40;
         double mutationProb = 0.9;
         double crossProb = 0.9;
+        int numOfIterations = 40;
 
         FileWriter writer = new FileWriter("results.txt");
+        Function function = new Function(a, b, c);
 
         while (numOfIterations > 0) {
-            int numOfGenerations = 1;
-            Population population = new Population(populationSize, chromosomeSize, crossProb);
-            Population newGeneration = new Population(populationSize, chromosomeSize, crossProb);
-            while (numOfGenerations > 0) {
-                population.printout();
+            int numOfGen = numOfGenerations;
+            Population population = new Population(populationSize, chromosomeSize, mutationProb, crossProb, function);
+            Population newGeneration = new Population(populationSize, chromosomeSize, mutationProb, crossProb, function);
+            while (numOfGen > 0) {
                 newGeneration = population.evolution();
                 newGeneration.printout();
                 population = newGeneration;
-                numOfGenerations--;
+                numOfGen--;
             }
             writer.write(newGeneration.theBest());
             numOfIterations--;
