@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
 import java.util.stream.Collectors;
+
 import static java.util.Collections.sort;
 
 public class Population {
@@ -14,6 +15,7 @@ public class Population {
     private double crossProb;
     private double mutationProb;
     private Function function;
+    private double x_min;
 
     Population(int populationSize, int chromosomeSize, double mutationProb, double crossProb, Function function) {
         this.population = new HashMap<>();
@@ -31,7 +33,7 @@ public class Population {
     }
 
     Population evolution() {
-        Population duringEvoGeneration = new Population(populationSize, chromosomeSize, mutationProb, crossProb, function);
+        Population duringEvoGen = new Population(populationSize, chromosomeSize, mutationProb, crossProb, function);
         Population newGeneration = new Population(populationSize, chromosomeSize, mutationProb, crossProb, function);
         generateUniquePairs();
         double randomProb;
@@ -46,41 +48,62 @@ public class Population {
             if (randomProb < crossProb) {
                 crossing(mom, dad);
             }
-            duringEvoGeneration.population.put(momIndex, mom);
-            duringEvoGeneration.population.put(dadIndex, dad);
+            duringEvoGen.population.put(momIndex, mom);
+            duringEvoGen.population.put(dadIndex, dad);
         }
 
         //2.Mutation
-        for (Integer key : duringEvoGeneration.population.keySet()) {
-            Individual individual = duringEvoGeneration.population.get(key).copy();
+        for (Integer key : duringEvoGen.population.keySet()) {
+            Individual individual = duringEvoGen.population.get(key).copy();
             individual.mutation();
-            duringEvoGeneration.population.put(key, individual);
+            duringEvoGen.population.put(key, individual);
         }
 
         //3.Selection
-        Map<Integer, Integer> indivProbMap = new HashMap<>();
-        for (Integer key : duringEvoGeneration.population.keySet()) {
-            int x = duringEvoGeneration.population.get(key).chromosomeToDigital();
+        Map<Integer, Double> indivProbMap = new HashMap<>();
+        for (Integer key : duringEvoGen.population.keySet()) {
+            int x = duringEvoGen.population.get(key).chromosomeToDigital();
             System.out.println("x: " + x);
-            int prob = (function.fx(x));
-                    //- fxMin() + 1)/ sumFxPositive();
-            System.out.println("prob: " + prob);
-            indivProbMap.put(key, prob);
-        }
+            double prob = 0;
+            if (fxMin() < 0) {
+                prob = (duringEvoGen.function.fx(x) - duringEvoGen.fxMin() + 1) / duringEvoGen.sumFx();
+            } else {
+                prob = duringEvoGen.function.fx(x) / duringEvoGen.sumFx();
+            }
+            System.out.println(("fx: " + duringEvoGen.function.fx(x)));
+            System.out.print("fxMin " + duringEvoGen.fxMin());
+            System.out.println(", prob: " + prob);
+            System.out.print("SumFx: " + duringEvoGen.sumFx());
+            System.out.println(" Key: " + key);
 
+            indivProbMap.put(key, prob);
+            System.out.println("------------------------------------------");
+        }
+        System.out.println("fxMin: " + duringEvoGen.fxMin());
+
+        for (Integer key : indivProbMap.keySet()) {
+            System.out.println(key + " Indiv prob: " + indivProbMap.get(key));
+        }
 
         for (int i = 0; i < populationSize; ) {
             double selectProb = Math.random();
+            System.out.println("Random prob for : " + i + " " + selectProb);
             for (Integer key : indivProbMap.keySet()) {
                 if (selectProb < indivProbMap.get(key)) {
-                    newGeneration.population.put(i, duringEvoGeneration.population.get(key));
+                    newGeneration.population.put(i, duringEvoGen.population.get(key));
                     System.out.println("During evolution added, individual number: " + key);
                     i++;
                     break;
                 }
                 selectProb -= indivProbMap.get(key);
             }
+            System.out.println("-----------------------------------------");
         }
+        for (Integer key : newGeneration.population.keySet()) {
+            System.out.println("New gen x: " + key + " Value: " + newGeneration.population.get(key).chromosomeToDigital());
+        }
+        double summmm = indivProbMap.get(0) + indivProbMap.get(1);
+        System.out.println("Suma prawd: " + summmm);
         //x = random()
         //for indiv, prob in indivProbMap {
         //   if x < prob {
@@ -88,8 +111,6 @@ public class Population {
         //    }
         //    x -= prob
         //}
-        System.out.println(newGeneration.theBest());
-
         return newGeneration;
     }
 
@@ -119,31 +140,40 @@ public class Population {
         }
     }
 
-    int fxMin() {
-        int Fx_min = 0;
+    double fxMin() {
+        x_min = population.get(0).chromosomeToDigital();
+        double fx_min = function.fx(x_min);
         for (Integer key : population.keySet()) {
-            int x = population.get(key).chromosomeToDigital();
-            if (function.fx(x) < Fx_min) {
-                Fx_min = function.fx(x);
+            double x = population.get(key).chromosomeToDigital();
+            if (function.fx(x) < fx_min) {
+                fx_min = function.fx(x);
+                x_min = x;
             }
         }
-        return Fx_min;
+        return fx_min;
     }
 
-    int sumFxPositive() {
-        int sumFx = 0;
-        for (Integer key : population.keySet()) {
-            int x = population.get(key).chromosomeToDigital();
-            sumFx += function.fx(x) - fxMin() + 1;
+    double sumFx() {
+        double sumFx = 0;
+        if (fxMin() < 0) {
+            for (Integer key : population.keySet()) {
+                double x = population.get(key).chromosomeToDigital();
+                sumFx += function.fx(x) - fxMin() + 1;
+            }
+        } else {
+            for (Integer key : population.keySet()) {
+                double x = population.get(key).chromosomeToDigital();
+                sumFx += function.fx(x);
+            }
         }
         return sumFx;
     }
 
     String theBest() {
         double fx;
-        double fx_best = 0;
-        int x;
-        int x_best = 0;
+        double fx_best = fxMin();
+        double x;
+        double x_best = x_min;
         for (Integer key : population.keySet()) {
             x = population.get(key).chromosomeToDigital();
             if (function.fx(x) > fx_best) {

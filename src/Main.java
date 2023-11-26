@@ -6,12 +6,12 @@ public class Main {
         int a = 1;
         int b = -250;
         int c = 10000;
-        int populationSize = 4;
+        int populationSize = 2;
         int numOfGenerations = 1;
         int chromosomeSize = 8;
         double mutationProb = 0.9;
         double crossProb = 0.9;
-        int numOfIterations = 40;
+        int numOfIterations = 1;
 
         FileWriter writer = new FileWriter("results.txt");
         Function function = new Function(a, b, c);
@@ -27,6 +27,7 @@ public class Main {
                 numOfGen--;
             }
             writer.write(newGeneration.theBest());
+            System.out.println(newGeneration.theBest());
             numOfIterations--;
         }
         writer.close();
