@@ -3,10 +3,16 @@ public class Function {
     private int fx;
     private int x;
     private int a;
-    privte
     private int b;
+    private int c;
 
-    static double fxPositive(int x) {
+    Function(int a, int b, int c) {
+        this.a = a;
+        this.b = b;
+        this.c = c;
+    }
+
+    static int fxPositive(int x) {
         fx = a * Math.pow(x, 2) + b * x + c;
         if (fx < 0) {
             fx = fx - fx + 1;   //+1 don't kill the weakest one
@@ -14,9 +20,8 @@ public class Function {
         return fx;
     }
 
-    static double fx(double x) {
+    int fx(int x) {
         fx = a * Math.pow(x, 2) + b * x + c;
         return fx;
     }
-
 }

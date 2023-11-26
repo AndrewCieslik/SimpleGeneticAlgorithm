@@ -9,12 +9,15 @@ public class Main {
         int populationSize = 4;
         int chromosomeSize = 8;
         int numOfIterations = 40;
+        double mutationProb = 0.9;
+        double crossProb = 0.9;
+
         FileWriter writer = new FileWriter("results.txt");
 
         while (numOfIterations > 0) {
             int numOfGenerations = 1;
-            Population population = new Population(populationSize, chromosomeSize);
-            Population newGeneration = new Population(populationSize, chromosomeSize);
+            Population population = new Population(populationSize, chromosomeSize, crossProb);
+            Population newGeneration = new Population(populationSize, chromosomeSize, crossProb);
             while (numOfGenerations > 0) {
                 population.printout();
                 newGeneration = population.evolution();

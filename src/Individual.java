@@ -3,7 +3,6 @@ import java.util.Random;
 
 public class Individual {
     final boolean[] chromosome;
-    double mutation_Prob = 0.07;
 
     Individual(int chromosomeSize) {
         this.chromosome = new boolean[chromosomeSize];
@@ -20,7 +19,7 @@ public class Individual {
         double randomProbability;
         for (int i = 0; i < chromosome.length; i++) {
             randomProbability = Math.random();
-            if (randomProbability < mutation_Prob) {
+            if (randomProbability < mutationProb) {
                 chromosome[i] = !chromosome[i];
             }
         }

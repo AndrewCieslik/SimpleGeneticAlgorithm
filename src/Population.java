@@ -12,13 +12,15 @@ public class Population {
     private HashMap<Integer, Individual> population;
     private HashMap<Integer, Integer> parents;
     private int populationSize;
+    private double crossProb;
 
 
-    Population(int populationSize, int chromosomeSize) {
+    Population(int populationSize, int chromosomeSize, double crossProb) {
         this.population = new HashMap<>();
         this.parents = new HashMap<>();
         this.chromosomeSize = chromosomeSize;
         this.populationSize = populationSize;
+        this.crossProb = crossProb;
 
         for (int i = 0; i < populationSize; i++) {
             Individual individual = new Individual(chromosomeSize);
@@ -46,7 +48,7 @@ public class Population {
             Individual mom = population.get(momIndex).copy();
             Individual dad = population.get(dadIndex).copy();
 
-            if (randomProb > 0.4) {
+            if (randomProb < crossProb) {
                 System.out.println("Crossing started: Mom " + momIndex + " + Dad " + dadIndex);
                 crossing(mom, dad);
                 System.out.println("Crossing completed.");
