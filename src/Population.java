@@ -60,23 +60,18 @@ public class Population {
         }
 
         //3.Selection
+
         Map<Integer, Double> indivProbMap = new HashMap<>();
         for (Integer key : duringEvoGen.population.keySet()) {
             int x = duringEvoGen.population.get(key).chromosomeToDigital();
             System.out.println("x: " + x);
-            double prob = 0;
-            if (fxMin() < 0) {
-                prob = (duringEvoGen.function.fx(x) - duringEvoGen.fxMin() + 1) / duringEvoGen.sumFx();
-            } else {
-                prob = duringEvoGen.function.fx(x) / duringEvoGen.sumFx();
-            }
             System.out.println(("fx: " + duringEvoGen.function.fx(x)));
             System.out.print("fxMin " + duringEvoGen.fxMin());
-            System.out.println(", prob: " + prob);
+            System.out.println(", prob: " + duringEvoGen.countProb(x));
             System.out.print("SumFx: " + duringEvoGen.sumFx());
             System.out.println(" Key: " + key);
 
-            indivProbMap.put(key, prob);
+            indivProbMap.put(key, duringEvoGen.countProb(x));
             System.out.println("------------------------------------------");
         }
         System.out.println("fxMin: " + duringEvoGen.fxMin());
@@ -112,6 +107,11 @@ public class Population {
         //    x -= prob
         //}
         return newGeneration;
+    }
+
+    double countProb(double x) {
+        double fxPrim = function.fx(x) - fxMin() + 1;
+        return fxPrim / sumFx();
     }
 
     void crossing(Individual mom, Individual dad) {
@@ -155,16 +155,10 @@ public class Population {
 
     double sumFx() {
         double sumFx = 0;
-        if (fxMin() < 0) {
-            for (Integer key : population.keySet()) {
-                double x = population.get(key).chromosomeToDigital();
-                sumFx += function.fx(x) - fxMin() + 1;
-            }
-        } else {
-            for (Integer key : population.keySet()) {
-                double x = population.get(key).chromosomeToDigital();
-                sumFx += function.fx(x);
-            }
+        for (Integer key : population.keySet()) {
+            double x = population.get(key).chromosomeToDigital();
+            double fxPrim = function.fx(x) - fxMin() + 1;
+            sumFx += fxPrim;
         }
         return sumFx;
     }
