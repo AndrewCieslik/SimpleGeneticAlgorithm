@@ -1,5 +1,5 @@
 public class Function {
-    private double fx;
+    private int fx;
     private int a;
     private int b;
     private int c;
@@ -10,7 +10,7 @@ public class Function {
         this.c = c;
     }
 
-    double fx(double x) {
+    int fx(int x) {
         fx = a * x * x + b * x + c;
         return fx;
     }
