@@ -1,40 +1,40 @@
-f(best)= 8536 best= 244
-f(best)= 11275 best= 255
-f(best)= 9504 best= 2
-f(best)= 10000 best= 0
-f(best)= 11016 best= 254
-f(best)= 11275 best= 255
-f(best)= 10000 best= 0
-f(best)= 10504 best= 252
-f(best)= 9259 best= 247
-f(best)= 9016 best= 4
-f(best)= 11016 best= 254
-f(best)= 11275 best= 255
-f(best)= 11016 best= 254
-f(best)= 10000 best= 0
-f(best)= 8775 best= 5
-f(best)= 10759 best= 253
-f(best)= 10000 best= 0
-f(best)= 8775 best= 245
-f(best)= 10759 best= 253
-f(best)= 11275 best= 255
-f(best)= 11016 best= 254
-f(best)= 11275 best= 255
-f(best)= 10759 best= 253
-f(best)= 9504 best= 2
-f(best)= 9751 best= 249
-f(best)= 10759 best= 253
-f(best)= 9504 best= 2
-f(best)= 9751 best= 1
-f(best)= 11016 best= 254
-f(best)= 8775 best= 245
-f(best)= 10000 best= 0
-f(best)= 11016 best= 254
-f(best)= 11275 best= 255
-f(best)= 10000 best= 0
-f(best)= 10000 best= 0
-f(best)= 9504 best= 2
-f(best)= 7600 best= 10
-f(best)= 10251 best= 251
-f(best)= 8064 best= 8
-f(best)= 11275 best= 255
+11275 255
+9504 2
+10000 0
+11275 255
+9504 2
+11275 255
+10504 252
+10504 252
+11016 254
+11275 255
+11016 254
+9751 1
+10000 0
+10000 0
+10000 0
+9504 2
+7144 12
+8536 6
+9751 1
+9259 247
+9751 249
+10759 253
+9259 3
+10759 253
+9751 1
+10000 0
+10759 253
+10759 253
+9504 248
+9016 4
+11016 254
+9259 3
+10504 252
+9016 4
+10504 252
+10759 253
+9504 2
+10251 251
+9504 2
+10000 0

@@ -135,18 +135,16 @@ public class Population {
     }
 
     String theBest() {
-        int fx;
         int fx_best = fxMin();
-        int x;
         int x_best = x_min;
         for (Integer key : population.keySet()) {
-            x = population.get(key).chromosomeToDigital();
+            int x = population.get(key).chromosomeToDigital();
             if (function.fx(x) > fx_best) {
                 fx_best = function.fx(x);
                 x_best = x;
             }
         }
-        return "f(best)= " + fx_best + " best= " + x_best + "\n";
+        return "" + fx_best + " " + x_best + "\n";
     }
 
     void printOut() {
